@@ -1,4 +1,4 @@
 emacscfg
 ========
 
-Various emacs configs
+Adnans Emacs Configurations
