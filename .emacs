@@ -15,13 +15,13 @@
 ; Load Paths
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (setq load-path (cons "~/.emacs.d" load-path))
-(add-to-list 'load-path "~/.emacs.d/php-mode-1.4.0")
+(add-to-list 'load-path "~/.emacs.d/php-mode-1.13.1")
 
 ; Fonts
 (require 'font-lock)
 (setq-default font-lock-maximum-decoration t)
 ;; (set-default-font "-*-Consolas-*-*-*-*-14-*-*-*-*-*-iso8859-1")
-(set-default-font "-*-Ubuntu\ Mono-*-*-*-*-14-*-*-*-*-*-iso8859-1")
+(set-default-font "-*-Monospace-*-*-*-*-14-*-*-*-*-*-iso8859-1")
 
 ; Frame Size
 (add-to-list 'default-frame-alist '(height . 35))
@@ -227,3 +227,8 @@
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
