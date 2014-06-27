@@ -20,8 +20,6 @@
 ; Fonts
 (require 'font-lock)
 (setq-default font-lock-maximum-decoration t)
-;; (set-default-font "-*-Consolas-*-*-*-*-14-*-*-*-*-*-iso8859-1")
-(set-default-font "-*-Monospace-*-*-*-*-14-*-*-*-*-*-iso8859-1")
 
 ; Frame Size
 (add-to-list 'default-frame-alist '(height . 35))
@@ -42,8 +40,6 @@
 (setq make-backup-files nil)
 
 ; Keyboard 
-(global-set-key [f12] 'explorer)  
-(global-set-key [f11] 'fullscreen)
 (global-set-key [f7] 'previous-buffer)
 (global-set-key [f8] 'next-buffer)
 (global-set-key [f6] 'other-window)
@@ -63,11 +59,6 @@
 (setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.asp$" . html-helper-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.phtml$" . html-helper-mode) auto-mode-alist))
-
-; Visual Basic
-(autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
-(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" . 
-                                  visual-basic-mode)) auto-mode-alist))
 
 ; JavaScript
 ;(autoload 'js2-mode "js2" nil t)
@@ -222,13 +213,57 @@
   (insert-date)
   (insert "\n-----------------------\n\n"))
 
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
-
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(if (eq system-type 'darwin)
+	;Something for OS X goes here
+	(progn
+	 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	 (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+	 )
+)
+
+(if (eq system-type 'windows-nt) 
+	; Windows stuff goes here
+	(progn
+	  (set-default-font "-*-Consolas-*-*-*-*-14-*-*-*-*-*-iso8859-1")
+	   (global-set-key [f12] 'explorer)  
+	   (global-set-key [f11] 'fullscreen)
+	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	   (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+										; Visual Basic
+	   (autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
+	   (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" . 
+										visual-basic-mode)) auto-mode-alist))
+	   )
+)
+
+(if (eq system-type 'gnu/linux)
+	 (progn
+	   (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
+	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	   (global-set-key (kbd "S-C-<up>") 'enlarge-window))
+	  )
+
+
+(if (eq window-system 'nil)
+	(progn
+	 (global-set-key [f12] 'shrink-window-horizontally)
+	 (global-set-key [f11] 'enlarge-window-horizontally)
+	 (global-set-key [f10] 'shrink-window)
+	 (global-set-key [f9] 'enlarge-window))
+  )
+
+;; Enable colors for normal shell
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
