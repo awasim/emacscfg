@@ -22,8 +22,8 @@
 (setq-default font-lock-maximum-decoration t)
 
 ; Frame Size
-(add-to-list 'default-frame-alist '(height . 35))
-(add-to-list 'default-frame-alist '(width . 90))
+(add-to-list 'default-frame-alist '(height . 45))
+(add-to-list 'default-frame-alist '(width . 115))
 
 ; Server
 (server-start)
@@ -222,12 +222,17 @@
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
 	(progn
-	 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-	 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-	 (global-set-key (kbd "S-C-<down>") 'shrink-window)
-	 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
-	 )
-)
+	  (set-default-font "-*-Monaco-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+	  (setq mac-option-key-is-meta nil)
+	  (setq mac-command-key-is-meta t)
+	  (setq mac-command-modifier 'meta)
+	  (setq mac-option-modifier nil)
+	  (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	  (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	  (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	  (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+	  )
+  )
 
 (if (eq system-type 'windows-nt) 
 	; Windows stuff goes here
