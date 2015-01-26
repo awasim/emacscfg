@@ -25,9 +25,6 @@
 (add-to-list 'default-frame-alist '(height . 45))
 (add-to-list 'default-frame-alist '(width . 115))
 
-; Server
-(server-start)
-
 ; Misc Settings
 (tool-bar-mode -1)
 (setq scroll-step 1)
@@ -45,8 +42,8 @@
 (global-set-key [f6] 'other-window)
 (global-set-key [f5] 'frame-setup)
 (global-set-key (kbd "C-q") 'global-visual-line-mode)
-(global-set-key (kbd "C-;") 'insert-date)
-(global-set-key (kbd "C-'") 'new-day)
+;;(global-set-key (kbd "C-;") 'insert-date)
+(global-set-key (kbd "C-;") 'new-day)
 (global-set-key [f4] 'eval-buffer)
 
 ; Color Themes
@@ -202,7 +199,7 @@
 (defun insert-date()
   "Insert a time-stamp according to locale's date and time format."
   (interactive)
-  (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
+  (insert (format-time-string "* %a, %e %b %Y, %k:%M" (current-time))))
 
 ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
 (put 'narrow-to-region 'disabled nil)
@@ -227,6 +224,7 @@
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
 	  (setq mac-option-modifier nil)
+	  (setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
 	  (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 	  (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 	  (global-set-key (kbd "S-C-<down>") 'shrink-window)
@@ -272,3 +270,6 @@
 ;; Enable colors for normal shell
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+; Server
+(server-start)
