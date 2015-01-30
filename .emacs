@@ -16,6 +16,7 @@
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (setq load-path (cons "~/.emacs.d" load-path))
 (add-to-list 'load-path "~/.emacs.d/php-mode-1.13.1")
+(add-to-list 'load-path "~/.emacs.d/python-mode.el-6.2.0")
 
 ; Fonts
 (require 'font-lock)
@@ -148,14 +149,17 @@
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 ; Python 
-(autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(add-hook 'python-mode-hook
-      (lambda ()
-        (set (make-variable-buffer-local 'beginning-of-defun-function)
-         'py-beginning-of-def-or-class)
-        (setq outline-regexp "def\\|class ")))
+;; (autoload 'python-mode "python-mode" "Python Mode." t)
+;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;; (add-hook 'python-mode-hook
+;;       (lambda ()
+;;         (set (make-variable-buffer-local 'beginning-of-defun-function)
+;;          'py-beginning-of-def-or-class)
+;;         (setq outline-regexp "def\\|class ")))
+
+(setq py-install-directory "~/emacscfg/.emacs.d/python-mode.el-6.2.0")
+(require 'python-mode)
 
 ; PHP
 (require 'php-mode)
