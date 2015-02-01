@@ -45,8 +45,8 @@
 (global-set-key [f6] 'other-window)
 (global-set-key [f5] 'frame-setup)
 (global-set-key (kbd "C-q") 'global-visual-line-mode)
-(global-set-key (kbd "C-;") 'insert-date)
-(global-set-key (kbd "C-'") 'new-day)
+(global-set-key (kbd "C-c d") 'insert-date)
+(global-set-key (kbd "C-c y") 'new-day)
 (global-set-key [f4] 'eval-buffer)
 
 ; Color Themes
@@ -202,7 +202,7 @@
 (defun insert-date()
   "Insert a time-stamp according to locale's date and time format."
   (interactive)
-  (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
+  (insert (format-time-string "* %a, %e %b %Y, %k:%M" (current-time))))
 
 ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
 (put 'narrow-to-region 'disabled nil)
@@ -211,7 +211,7 @@
   "Insert new date and underline"
   (interactive)
   (insert-date)
-  (insert "\n-----------------------\n\n"))
+  (insert "\n--------------------------\n\n"))
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
@@ -272,3 +272,10 @@
 ;; Enable colors for normal shell
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives 
+			 '("marmalade" . "http://marmalade-repo.org/packages/"))
