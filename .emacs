@@ -255,7 +255,7 @@
 
 (if (eq system-type 'gnu/linux)
 	 (progn
-	   (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
+	   (set-default-font "-*-Monospace-*-*-*-*-16-*-*-*-*-*-iso8859-1")
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
@@ -282,4 +282,16 @@
 			 '("marmalade" . "http://marmalade-repo.org/packages/"))
 ; Server
 (server-start)
+
+;; C/C++ Additions
+(setq-default c-basic-offset 4 c-default-style "linux")
+(setq-default tab-width 4 indent-tabs-mode t)
+(define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+(require 'autopair)
+(autopair-global-mode 1)
+(setq autopair-autowrap t)
+(require 'auto-complete-clang)
+(define-key c++-mode-map (kbd "C-S-<return>") 'ac-complete-clang)
+(require 'flymake)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
 
