@@ -14,7 +14,11 @@
 
 ; Load Paths
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-(setq load-path (cons "~/.emacs.d" load-path))
+;; (setq load-path (cons "~/.emacs.d" load-path))
+(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150408.1132")
+(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-clang-20140409.52")
+(add-to-list 'load-path "~/.emacs.d/elpa/autopair-20140825.427")
+(add-to-list 'load-path "~/.emacs.d/elpa/popup-20150315.612")
 (add-to-list 'load-path "~/.emacs.d/php-mode-1.13.1")
 (add-to-list 'load-path "~/.emacs.d/python-mode.el-6.2.0")
 
