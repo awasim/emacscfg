@@ -273,7 +273,12 @@
 	 (global-set-key [f11] 'enlarge-window-horizontally)
 	 (global-set-key [f10] 'shrink-window)
 	 (global-set-key [f9] 'enlarge-window)
-	 (setq linum-format "%d "))
+	 (setq linum-format "%d ")
+	 (defun on-after-init ()
+	   (unless (display-graphic-p (selected-frame))
+		 (set-face-background 'default "unspecified-bg" (selected-frame))))
+
+	 (add-hook 'window-setup-hook 'on-after-init))
   )
 
 ;; Enable colors for normal shell
