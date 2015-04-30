@@ -272,7 +272,8 @@
 	 (global-set-key [f12] 'shrink-window-horizontally)
 	 (global-set-key [f11] 'enlarge-window-horizontally)
 	 (global-set-key [f10] 'shrink-window)
-	 (global-set-key [f9] 'enlarge-window))
+	 (global-set-key [f9] 'enlarge-window)
+	 (setq linum-format "%d "))
   )
 
 ;; Enable colors for normal shell
