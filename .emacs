@@ -243,7 +243,7 @@
 (if (eq system-type 'windows-nt) 
 	; Windows stuff goes here
 	(progn
-	  (set-default-font "-*-Consolas-*-*-*-*-14-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Consolas-*-*-*-*-16-*-*-*-*-*-iso8859-1")
 	   (global-set-key [f12] 'explorer)  
 	   (global-set-key [f11] 'fullscreen)
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
