@@ -41,6 +41,14 @@
 (global-linum-mode 1) 
 (setq make-backup-files nil)
 
+;; Scrolling Fix
+(setq scroll-margin 1
+      scroll-conservatively 0
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01)
+(setq-default scroll-up-aggressively 0.01
+			  scroll-down-aggressively 0.01)
+
 ; Keyboard 
 (global-set-key [f7] 'previous-buffer)
 (global-set-key [f8] 'next-buffer)
