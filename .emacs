@@ -1,14 +1,15 @@
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(case-fold-search t)
  '(column-number-mode t)
  '(current-language-environment "Latin-1")
  '(default-input-method "latin-1-prefix")
  '(global-font-lock-mode t nil (font-lock))
  '(load-home-init-file t t)
+ '(org-agenda-files (quote ("~/docs/2016.org")))
  '(show-paren-mode t nil (paren))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
 
@@ -65,10 +66,10 @@
 (color-theme-calm-forest)
 
 ; HTML
-(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
-(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.asp$" . html-helper-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.phtml$" . html-helper-mode) auto-mode-alist))
+;; (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+;; (setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
+;; (setq auto-mode-alist (cons '("\\.asp$" . html-helper-mode) auto-mode-alist))
+;; (setq auto-mode-alist (cons '("\\.phtml$" . html-helper-mode) auto-mode-alist))
 
 ; JavaScript
 ;(autoload 'js2-mode "js2" nil t)
@@ -215,7 +216,7 @@
 (defun insert-date()
   "Insert a time-stamp according to locale's date and time format."
   (interactive)
-  (insert (format-time-string "* %a, %e %b %Y, %k:%M" (current-time))))
+  (insert (format-time-string "** %a, %e %b %Y, %k:%M" (current-time))))
 
 ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
 (put 'narrow-to-region 'disabled nil)
@@ -282,11 +283,19 @@
 	 (global-set-key [f10] 'shrink-window)
 	 (global-set-key [f9] 'enlarge-window)
 	 (setq linum-format "%d ")
-	 (defun on-after-init ()
-	   (unless (display-graphic-p (selected-frame))
-		 (set-face-background 'default "unspecified-bg" (selected-frame))))
+;;	 (defun on-after-init ()
+;;	   (unless (display-graphic-p (selected-frame))
+;;		 (set-face-background 'default "unspecified-bg" (selected-frame))))
+;;
+;;	 (add-hook 'window-setup-hook 'on-after-init)
 
-	 (add-hook 'window-setup-hook 'on-after-init))
+	 (defun on-frame-open (&optional frame)
+	   "If the FRAME created in terminal don't load background color."
+	   (unless (display-graphic-p frame)
+		 (set-face-background 'default "unspecified-bg" frame)))
+	 
+	 (add-hook 'after-make-frame-functions 'on-frame-open)
+	 )
   )
 
 ;; Enable colors for normal shell
@@ -296,20 +305,13 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives 
-			 '("marmalade" . "http://marmalade-repo.org/packages/"))
+
 ; Server
 (server-start)
 
-;; C/C++ Additions
-(setq-default c-basic-offset 4 c-default-style "linux")
-(setq-default tab-width 4 indent-tabs-mode t)
-(define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
-(require 'autopair)
-(autopair-global-mode 1)
-(setq autopair-autowrap t)
-(require 'auto-complete-clang)
-(define-key c++-mode-map (kbd "C-S-<return>") 'ac-complete-clang)
-(require 'flymake)
-(add-hook 'find-file-hook 'flymake-find-file-hook)
-
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
