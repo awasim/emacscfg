@@ -32,13 +32,13 @@
 (add-to-list 'default-frame-alist '(width . 115))
 
 ; Misc Settings
-(tool-bar-mode -1)
+;; (tool-bar-mode -1)
 (setq scroll-step 1)
 (setq default-tab-width 4)
 (setq inhibit-splash-screen t)
 (menu-bar-mode 0)
 (size-indication-mode 1)
-(scroll-bar-mode -1)
+;; (scroll-bar-mode -1)
 (global-linum-mode 1) 
 (setq make-backup-files nil)
 
@@ -315,3 +315,25 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;(require 'org-bullets)
+;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(font-lock-add-keywords 'org-mode
+                        '(("^ +\\([-*]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+(defun utf8-shell()
+  "Create Shell that supports UTF-8."
+  (interactive)
+  (set-default-coding-systems 'utf-8)
+  (shell))
+
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+    )
+(add-hook 'org-mode-hook (lambda () (linum-mode 0)))
