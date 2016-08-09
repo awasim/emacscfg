@@ -337,3 +337,30 @@
   (kill-emacs)
     )
 (add-hook 'org-mode-hook (lambda () (linum-mode 0)))
+
+(defun on-frame-open (&optional frame)
+  "If the FRAME created in terminal don't load background color."
+  (unless (display-graphic-p frame)
+	(set-face-background 'default "unspecified-bg" frame)))
+
+(add-hook 'after-make-frame-functions 'on-frame-open)
+
+;; ggtags
+;; (require 'ggtags)
+;; (add-hook 'c-mode-common-hook
+;; 		  (lambda ()
+;; 			(when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+;; 			  (ggtags-mode 1))))
+
+;; (define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
+;; (define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
+;; (define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
+;; (define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
+;; (define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
+;; (define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
+
+;; (define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
+
+;; elpy
+(package-initialize)
+(elpy-enable)
