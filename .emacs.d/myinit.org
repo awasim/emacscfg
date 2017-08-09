@@ -21,6 +21,7 @@
 (scroll-bar-mode -1)
 (global-linum-mode 1) 
 (setq make-backup-files nil)
+(fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 * Fonts
 #+BEGIN_SRC emacs-lisp

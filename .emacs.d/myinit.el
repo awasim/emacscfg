@@ -18,6 +18,7 @@
 (scroll-bar-mode -1)
 (global-linum-mode 1) 
 (setq make-backup-files nil)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 (require 'font-lock)
 (setq-default font-lock-maximum-decoration t)
@@ -129,3 +130,213 @@
   (message "My JS2 hook"))
  
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
+
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
+(font-lock-add-keywords 'org-mode
+                        '(("^ +\\([-*]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
+(add-hook 'org-mode-hook (lambda () (linum-mode 0)))
+
+(defun transparent(alpha-level no-focus-alpha-level)
+  "Let's you make the window transparent"
+  (interactive "nAlpha level (0-100): \nnNo focus alpha level (0-100): ")
+  (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
+  (add-to-list 'default-frame-alist `(alpha ,alpha-level)))
+(transparent 85 70)
+(defun on-frame-open (&optional frame)
+  "If the FRAME created in terminal don't load background color."
+  (unless (display-graphic-p frame)
+        (set-face-background 'default "unspecified-bg" frame)))
+
+(add-hook 'after-make-frame-functions 'on-frame-open)
+
+; Insert Date
+(defun insert-date()
+  "Insert a time-stamp according to locale's date and time format."
+  (interactive)
+  (insert (format-time-string "** %a, %e %b %Y, %k:%M" (current-time))))
+
+;;;enable narrowing- C-x n n to enable -  C-x n w to end.
+(put 'narrow-to-region 'disabled nil)
+
+(defun new-day ()
+  "Insert new date and underline"
+  (interactive)
+  (insert-date)
+  (insert "\n--------------------------\n\n"))
+
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(if (eq system-type 'darwin)
+        ;Something for OS X goes here
+        (progn
+          (set-default-font "-*-Monaco-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+          (setq mac-option-key-is-meta nil)
+          (setq mac-command-key-is-meta t)
+          (setq mac-command-modifier 'meta)
+          (setq mac-option-modifier nil)
+          (setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
+          (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+          (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+          (global-set-key (kbd "S-C-<down>") 'shrink-window)
+          (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+          )
+  )
+
+(if (eq system-type 'windows-nt) 
+        ; Windows stuff goes here
+        (progn
+          (set-default-font "-*-Consolas-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+           (global-set-key [f12] 'explorer)  
+           (global-set-key [f11] 'fullscreen)
+           (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+           (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+           (global-set-key (kbd "S-C-<down>") 'shrink-window)
+           (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+                                                                                ; Visual Basic
+           (autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
+           (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" . 
+                                                                                visual-basic-mode)) auto-mode-alist))
+           )
+)
+
+(if (eq system-type 'gnu/linux)
+         (progn
+           (set-default-font "-*-Monospace-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+           (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+           (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+           (global-set-key (kbd "S-C-<down>") 'shrink-window)
+           (global-set-key (kbd "S-C-<up>") 'enlarge-window))
+          )
+
+
+(if (eq window-system 'nil)
+        (progn
+         (global-set-key [f12] 'shrink-window-horizontally)
+         (global-set-key [f11] 'enlarge-window-horizontally)
+         (global-set-key [f10] 'shrink-window)
+         (global-set-key [f9] 'enlarge-window)
+         (setq linum-format "%d ")
+;;       (defun on-after-init ()
+;;         (unless (display-graphic-p (selected-frame))
+;;               (set-face-background 'default "unspecified-bg" (selected-frame))))
+;;
+;;       (add-hook 'window-setup-hook 'on-after-init)
+
+         (defun on-frame-open (&optional frame)
+           "If the FRAME created in terminal don't load background color."
+           (unless (display-graphic-p frame)
+                 (set-face-background 'default "unspecified-bg" frame)))
+         
+         (add-hook 'after-make-frame-functions 'on-frame-open)
+         )
+  )
+
+; Server
+(server-start)
+
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+    )
+
+;; Enable colors for normal shell
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(defun utf8-shell()
+  "Create Shell that supports UTF-8."
+  (interactive)
+  (set-default-coding-systems 'utf-8)
+  (shell))
+
+;; elpy
+(package-initialize)
+(elpy-enable)
+
+; HTML
+;; (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+;; (setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
+;; (setq auto-mode-alist (cons '("\\.asp$" . html-helper-mode) auto-mode-alist))
+;; (setq auto-mode-alist (cons '("\\.phtml$" . html-helper-mode) auto-mode-alist))
+
+; JavaScript
+;(autoload 'js2-mode "js2" nil t)
+;(add-to-list 'auto-mode-alist '("\\.js$" js2-mode))
+
+ 
+ 
+; Python 
+;; (autoload 'python-mode "python-mode" "Python Mode." t)
+;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;; (add-hook 'python-mode-hook
+;;       (lambda ()
+;;         (set (make-variable-buffer-local 'beginning-of-defun-function)
+;;          'py-beginning-of-def-or-class)
+;;         (setq outline-regexp "def\\|class ")))
+
+;; (setq py-install-directory "~/emacscfg/.emacs.d/python-mode.el-6.2.0")
+;; (require 'python-mode)
+
+; PHP
+;; (require 'php-mode)
+
+; Ruby
+;; (autoload 'ruby-mode "ruby-mode" "Ruby editing mode." t)
+;; (setq auto-mode-alist  (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
+;; (setq auto-mode-alist  (cons '("\\.rhtml$" . html-mode) auto-mode-alist))
+
+; Explorer
+;; (defun explorer ()  
+;;  "Launch the windows explorer in the current directory and selects current file"  
+;;  (interactive)  
+;;  (w32-shell-execute  
+;;   "open"  
+;;   "explorer"  
+;;   (concat "/e,/select," (convert-standard-filename buffer-file-name))))  
+
+; Full Screen Emacs
+;; (defun fullscreen ()
+;;   (interactive)
+;;  (set-frame-parameter nil 'fullscreen
+;;                       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
+
+(use-package counsel
+   :ensure t
+)
+
+(use-package swiper
+  :ensure try
+  :config
+  (progn
+        (ivy-mode 1)
+        (setq ivy-use-virtual-buffers t)
+        (global-set-key "\C-s" 'swiper)
+        (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "<f6>") 'ivy-resume)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+    (global-set-key (kbd "<f1> l") 'counsel-load-library)
+    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    (global-set-key (kbd "C-c j") 'counsel-git-grep)
+    (global-set-key (kbd "C-c k") 'counsel-ag)
+    (global-set-key (kbd "C-x l") 'counsel-locate)
+    (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+    (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+    ))
