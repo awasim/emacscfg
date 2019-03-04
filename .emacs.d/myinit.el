@@ -19,6 +19,20 @@
 (global-linum-mode 1) 
 (setq make-backup-files nil)
 (fset 'yes-or-no-p 'y-or-n-p)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+(use-package try
+:ensure t)
+
+(use-package which-key
+:ensure t
+:config (which-key-mode))
+
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
 
 (require 'font-lock)
 (setq-default font-lock-maximum-decoration t)
@@ -43,8 +57,9 @@
 (global-set-key [f4] 'eval-buffer)
 
 (require 'color-theme)
-(color-theme-initialize)
-(color-theme-calm-forest)
+;; (color-theme-initialize)
+;; (color-theme-calm-forest)
+(load-theme 'solarized-dark)
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
@@ -140,6 +155,10 @@
                         '(("^ +\\([-*]\\) "
                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
 (add-hook 'org-mode-hook (lambda () (linum-mode 0)))
+(use-package org-bullets
+:ensure t
+:config
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (defun transparent(alpha-level no-focus-alpha-level)
   "Let's you make the window transparent"
@@ -210,7 +229,7 @@
 
 (if (eq system-type 'gnu/linux)
          (progn
-           (set-default-font "-*-Monospace-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+           (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
            (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
            (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
            (global-set-key (kbd "S-C-<down>") 'shrink-window)
@@ -313,30 +332,9 @@
 ;;  (set-frame-parameter nil 'fullscreen
 ;;                       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 
-(use-package counsel
-   :ensure t
-)
-
-(use-package swiper
-  :ensure try
-  :config
-  (progn
-        (ivy-mode 1)
-        (setq ivy-use-virtual-buffers t)
-        (global-set-key "\C-s" 'swiper)
-        (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "<f6>") 'ivy-resume)
-    (global-set-key (kbd "M-x") 'counsel-M-x)
-    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-    (global-set-key (kbd "<f1> l") 'counsel-load-library)
-    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-    (global-set-key (kbd "C-c g") 'counsel-git)
-    (global-set-key (kbd "C-c j") 'counsel-git-grep)
-    (global-set-key (kbd "C-c k") 'counsel-ag)
-    (global-set-key (kbd "C-x l") 'counsel-locate)
-    (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-    (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-    ))
+(defun htop ()
+  (interactive)
+  (if (get-buffer "*htop*")
+      (switch-to-buffer "*htop*")
+    (ansi-term "/bin/bash" "htop")   
+    (comint-send-string "*htop*" "htop\n")))
