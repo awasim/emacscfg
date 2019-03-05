@@ -1,3 +1,5 @@
 .emacs.d/auto-save-list/*
 .emacs.d/elpa/*
 .emacs.d/elpa/archives/melpa/archive-contents
+.history
+.pylint.d
