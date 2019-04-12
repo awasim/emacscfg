@@ -3,3 +3,6 @@
 .emacs.d/elpa/archives/melpa/archive-contents
 .history
 .pylint.d
+.cache/*
+.emacs.d/ido.last
+.emacs.d/server/

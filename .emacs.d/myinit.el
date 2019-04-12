@@ -1,4 +1,3 @@
-
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 ;; (setq load-path (cons "~/.emacs.d" load-path))
 (add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150408.1132")
@@ -45,7 +44,7 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01)
 (setq-default scroll-up-aggressively 0.01
-                          scroll-down-aggressively 0.01)
+			  scroll-down-aggressively 0.01)
 
 (global-set-key [f7] 'previous-buffer)
 (global-set-key [f8] 'next-buffer)
@@ -165,11 +164,11 @@
   (interactive "nAlpha level (0-100): \nnNo focus alpha level (0-100): ")
   (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
   (add-to-list 'default-frame-alist `(alpha ,alpha-level)))
-(transparent 85 70)
+(transparent 90 85)
 (defun on-frame-open (&optional frame)
   "If the FRAME created in terminal don't load background color."
   (unless (display-graphic-p frame)
-        (set-face-background 'default "unspecified-bg" frame)))
+	(set-face-background 'default "unspecified-bg" frame)))
 
 (add-hook 'after-make-frame-functions 'on-frame-open)
 
@@ -195,68 +194,68 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (if (eq system-type 'darwin)
-        ;Something for OS X goes here
-        (progn
-          (set-default-font "-*-Monaco-*-*-*-*-16-*-*-*-*-*-iso8859-1")
-          (setq mac-option-key-is-meta nil)
-          (setq mac-command-key-is-meta t)
-          (setq mac-command-modifier 'meta)
-          (setq mac-option-modifier nil)
-          (setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
-          (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-          (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-          (global-set-key (kbd "S-C-<down>") 'shrink-window)
-          (global-set-key (kbd "S-C-<up>") 'enlarge-window)
-          )
+	;Something for OS X goes here
+	(progn
+	  (set-default-font "-*-Monaco-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+	  (setq mac-option-key-is-meta nil)
+	  (setq mac-command-key-is-meta t)
+	  (setq mac-command-modifier 'meta)
+	  (setq mac-option-modifier nil)
+	  (setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
+	  (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	  (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	  (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	  (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+	  )
   )
 
 (if (eq system-type 'windows-nt) 
-        ; Windows stuff goes here
-        (progn
-          (set-default-font "-*-Consolas-*-*-*-*-16-*-*-*-*-*-iso8859-1")
-           (global-set-key [f12] 'explorer)  
-           (global-set-key [f11] 'fullscreen)
-           (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-           (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-           (global-set-key (kbd "S-C-<down>") 'shrink-window)
-           (global-set-key (kbd "S-C-<up>") 'enlarge-window)
-                                                                                ; Visual Basic
-           (autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
-           (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" . 
-                                                                                visual-basic-mode)) auto-mode-alist))
-           )
+	; Windows stuff goes here
+	(progn
+	  (set-default-font "-*-Consolas-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+	   (global-set-key [f12] 'explorer)  
+	   (global-set-key [f11] 'fullscreen)
+	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	   (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+										; Visual Basic
+	   (autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
+	   (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" . 
+										visual-basic-mode)) auto-mode-alist))
+	   )
 )
 
 (if (eq system-type 'gnu/linux)
-         (progn
-           (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
-           (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-           (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-           (global-set-key (kbd "S-C-<down>") 'shrink-window)
-           (global-set-key (kbd "S-C-<up>") 'enlarge-window))
-          )
+	 (progn
+	   (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
+	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
+	   (global-set-key (kbd "S-C-<up>") 'enlarge-window))
+	  )
 
 
 (if (eq window-system 'nil)
-        (progn
-         (global-set-key [f12] 'shrink-window-horizontally)
-         (global-set-key [f11] 'enlarge-window-horizontally)
-         (global-set-key [f10] 'shrink-window)
-         (global-set-key [f9] 'enlarge-window)
-         (setq linum-format "%d ")
-;;       (defun on-after-init ()
-;;         (unless (display-graphic-p (selected-frame))
-;;               (set-face-background 'default "unspecified-bg" (selected-frame))))
+	(progn
+	 (global-set-key [f12] 'shrink-window-horizontally)
+	 (global-set-key [f11] 'enlarge-window-horizontally)
+	 (global-set-key [f10] 'shrink-window)
+	 (global-set-key [f9] 'enlarge-window)
+	 (setq linum-format "%d ")
+;;	 (defun on-after-init ()
+;;	   (unless (display-graphic-p (selected-frame))
+;;		 (set-face-background 'default "unspecified-bg" (selected-frame))))
 ;;
-;;       (add-hook 'window-setup-hook 'on-after-init)
+;;	 (add-hook 'window-setup-hook 'on-after-init)
 
-         (defun on-frame-open (&optional frame)
-           "If the FRAME created in terminal don't load background color."
-           (unless (display-graphic-p frame)
-                 (set-face-background 'default "unspecified-bg" frame)))
-         
-         (add-hook 'after-make-frame-functions 'on-frame-open)
-         )
+	 (defun on-frame-open (&optional frame)
+	   "If the FRAME created in terminal don't load background color."
+	   (unless (display-graphic-p frame)
+		 (set-face-background 'default "unspecified-bg" frame)))
+	 
+	 (add-hook 'after-make-frame-functions 'on-frame-open)
+	 )
   )
 
 ; Server

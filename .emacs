@@ -8,14 +8,14 @@
  '(current-language-environment "Latin-1")
  '(custom-safe-themes
    (quote
-	("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(default-input-method "latin-1-prefix")
  '(global-font-lock-mode t nil (font-lock))
  '(load-home-init-file t t)
  '(org-agenda-files (quote ("~/docs/2016.org")))
  '(package-selected-packages
    (quote
-	(solarized-theme web-mode use-package org-bullets multi-web-mode magit json-mode js2-mode ggtags elpy autopair auto-complete-clang)))
+    (rust-mode solarized-theme web-mode use-package org-bullets multi-web-mode magit json-mode js2-mode ggtags elpy autopair auto-complete-clang)))
  '(show-paren-mode t nil (paren))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
 
