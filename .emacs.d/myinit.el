@@ -58,7 +58,7 @@
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
   (interactive)
-  (load-theme 'solarized-dark t))
+  (load-theme 'night-owl t))
 
 (defun theme-switcher ()
   (let ((current-hour (string-to-number (format-time-string "%H"))))
