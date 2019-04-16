@@ -9,3 +9,5 @@
 .emacs.d/server/
 \#.emacs\#
 .ssh/*
+.cache/*
+

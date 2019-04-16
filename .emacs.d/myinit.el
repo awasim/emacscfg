@@ -1,12 +1,3 @@
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-;; (setq load-path (cons "~/.emacs.d" load-path))
-(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150408.1132")
-(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-clang-20140409.52")
-(add-to-list 'load-path "~/.emacs.d/elpa/autopair-20140825.427")
-(add-to-list 'load-path "~/.emacs.d/elpa/popup-20150315.612")
-(add-to-list 'load-path "~/.emacs.d/php-mode-1.13.1")
-(add-to-list 'load-path "~/.emacs.d/python-mode.el-6.2.0")
-
 ; Misc Settings
 (tool-bar-mode -1)
 (setq scroll-step 1)
@@ -183,7 +174,7 @@
   (interactive "nAlpha level (0-100): \nnNo focus alpha level (0-100): ")
   (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
   (add-to-list 'default-frame-alist `(alpha ,alpha-level)))
-(transparent 90 70)
+(transparent 90 85)
 (defun on-frame-open (&optional frame)
   "If the FRAME created in terminal don't load background color."
   (unless (display-graphic-p frame)
@@ -205,12 +196,6 @@
   (interactive)
   (insert-date)
   (insert "\n--------------------------\n\n"))
-
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
