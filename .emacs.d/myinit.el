@@ -200,7 +200,7 @@
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
 	(progn
-	  (set-default-font "-*-Monaco-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Monaco-*-*-*-*-13-*-*-*-*-*-iso8859-1")
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
