@@ -64,23 +64,23 @@
 #+END_SRC
 * Color Themes
 #+BEGIN_SRC emacs-lisp
-(require 'color-theme)
+;; (require 'color-theme)
 ;; (color-theme-initialize)
 ;; (color-theme-calm-forest)
 ;; (load-theme 'solarized-dark)
 (defun set-light-theme ()
   "Set the light theme with some customization if needed."
   (interactive)
-  (flucui-themes-load-style 'light))
+  (load-theme 'night-owl t))
 
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
   (interactive)
-  (load-theme 'night-owl t))
+  (load-theme 'django t))
 
 (defun theme-switcher ()
   (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme))))
+    (if (or (< current-hour 11) (> current-hour 20)) (set-light-theme) (set-dark-theme))))
 
 ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
 ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
@@ -376,8 +376,38 @@
 ;;                       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 #+END_SRC
 * Rust
-#+BEGIN SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package rust-mode
 :ensure t)
 #+END_SRC
 
+* Ociticons
+#+BEGIN_SRC emacs-lisp
+(require 'octicons)
+
+(make-face 'octicons-mode-line)
+(set-face-attribute 'octicons-mode-line nil
+                    :inherit 'mode-line
+                    :inherit 'octicons)
+
+(setq-default mode-line-format (list
+    " "
+    '(:eval (if (vc-backend buffer-file-name)
+                (list
+                 (propertize octicon-octoface 'face 'octicons-modeline)
+                 (propertize " "              'face 'mode-line))))
+   mode-line-mule-info
+   'mode-line-modified
+   "-  "
+   'mode-line-buffer-identification
+   "  (%l, %c)  "
+   'mode-line-modes
+   " -- "
+   `(vc-mode vc-mode)
+))
+#+END_SRC
+* Powerline
+#+BEGIN_SRC emacs-lisp
+(require 'powerline)
+(powerline-default-theme)
+#+END_SRC

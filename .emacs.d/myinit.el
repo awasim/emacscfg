@@ -46,23 +46,23 @@
 (global-set-key (kbd "C-c y") 'new-day)
 (global-set-key [f4] 'eval-buffer)
 
-(require 'color-theme)
+;; (require 'color-theme)
 ;; (color-theme-initialize)
 ;; (color-theme-calm-forest)
 ;; (load-theme 'solarized-dark)
 (defun set-light-theme ()
   "Set the light theme with some customization if needed."
   (interactive)
-  (flucui-themes-load-style 'light))
+  (load-theme 'night-owl t))
 
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
   (interactive)
-  (load-theme 'night-owl t))
+  (load-theme 'django t))
 
 (defun theme-switcher ()
   (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme))))
+    (if (or (< current-hour 11) (> current-hour 20)) (set-light-theme) (set-dark-theme))))
 
 ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
 ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
@@ -335,3 +335,32 @@
 ;;   (interactive)
 ;;  (set-frame-parameter nil 'fullscreen
 ;;                       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
+
+(use-package rust-mode
+:ensure t)
+
+(require 'octicons)
+
+(make-face 'octicons-mode-line)
+(set-face-attribute 'octicons-mode-line nil
+                    :inherit 'mode-line
+                    :inherit 'octicons)
+
+(setq-default mode-line-format (list
+    " "
+    '(:eval (if (vc-backend buffer-file-name)
+                (list
+                 (propertize octicon-octoface 'face 'octicons-modeline)
+                 (propertize " "              'face 'mode-line))))
+   mode-line-mule-info
+   'mode-line-modified
+   "-  "
+   'mode-line-buffer-identification
+   "  (%l, %c)  "
+   'mode-line-modes
+   " -- "
+   `(vc-mode vc-mode)
+))
+
+(require 'powerline)
+(powerline-default-theme)
