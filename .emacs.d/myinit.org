@@ -20,6 +20,20 @@
 (use-package try
 :ensure t)
 #+END_SRC
+* package installs
+#+BEGIN_SRC emacs-lisp
+; list the packages you want
+(setq package-list '(elpy octicons powerline leuven-theme night-owl-theme rust-mode js2-mode))
+
+; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+#+END_SRC
 * which
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
