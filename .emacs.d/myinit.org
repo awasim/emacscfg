@@ -317,6 +317,13 @@
   (interactive)
   (set-default-coding-systems 'utf-8)
   (shell))
+
+(defun rutf8-shell()
+  "Create a shell that supports UTF-8, and rename buffer"
+  (interactive)
+  (set-default-coding-systems 'utf-8)
+  (shell)
+  (rename-buffer (read-string "Enter buffer name:")))
 #+END_SRC
 * Elpy
 #+BEGIN_SRC emacs-lisp
