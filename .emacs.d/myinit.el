@@ -16,6 +16,18 @@
 (use-package try
 :ensure t)
 
+; list the packages you want
+(setq package-list '(elpy octicons powerline leuven-theme night-owl-theme rust-mode js2-mode))
+
+; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 (use-package which-key
 :ensure t
 :config (which-key-mode))
@@ -53,16 +65,16 @@
 (defun set-light-theme ()
   "Set the light theme with some customization if needed."
   (interactive)
-  (load-theme 'night-owl t))
+  (load-theme 'leuven t))
 
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
   (interactive)
-  (load-theme 'django t))
+  (load-theme 'night-owl t))
 
 (defun theme-switcher ()
   (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 11) (> current-hour 20)) (set-light-theme) (set-dark-theme))))
+    (if (or (< current-hour 11) (> current-hour 20)) (set-dark-theme) (set-light-theme))))
 
 ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
 ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
@@ -200,7 +212,7 @@
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
 	(progn
-	  (set-default-font "-*-Monaco-*-*-*-*-13-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Monaco-*-*-*-*-12-*-*-*-*-*-iso8859-1")
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
@@ -216,7 +228,7 @@
 (if (eq system-type 'windows-nt) 
 	; Windows stuff goes here
 	(progn
-	  (set-default-font "-*-Consolas-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Consolas-*-*-*-*-28-*-*-*-*-*-iso8859-1")
 	   (global-set-key [f12] 'explorer)  
 	   (global-set-key [f11] 'fullscreen)
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -282,6 +294,13 @@
   (interactive)
   (set-default-coding-systems 'utf-8)
   (shell))
+
+(defun rutf8-shell()
+  "Create a shell that supports UTF-8, and rename buffer"
+  (interactive)
+  (set-default-coding-systems 'utf-8)
+  (shell)
+  (rename-buffer (read-string "Enter buffer name:")))
 
 ;; elpy
 (package-initialize)
