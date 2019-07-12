@@ -16,6 +16,18 @@
 (use-package try
 :ensure t)
 
+; list the packages you want
+(setq package-list '(elpy octicons powerline leuven-theme night-owl-theme rust-mode js2-mode))
+
+; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 (use-package which-key
 :ensure t
 :config (which-key-mode))
@@ -53,16 +65,16 @@
 (defun set-light-theme ()
   "Set the light theme with some customization if needed."
   (interactive)
-  (load-theme 'night-owl t))
+  (load-theme 'leuven t))
 
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
   (interactive)
-  (load-theme 'django t))
+  (load-theme 'night-owl t))
 
 (defun theme-switcher ()
   (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 11) (> current-hour 20)) (set-light-theme) (set-dark-theme))))
+    (if (or (< current-hour 11) (> current-hour 20)) (set-dark-theme) (set-light-theme))))
 
 ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
 ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
@@ -200,7 +212,7 @@
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
 	(progn
-	  (set-default-font "-*-Monaco-*-*-*-*-13-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Fira Code-*-*-*-*-14-*-*-*-*-*-iso8859-1")
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
@@ -261,6 +273,37 @@
 	 (add-hook 'after-make-frame-functions 'on-frame-open)
 	 )
   )
+  (when (window-system)
+  (set-frame-font "Fira Code"))
+  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+  (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+  (36 . ".\\(?:>\\)")
+  (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+  (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+  (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+  (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+  (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+  (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+  (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+  (48 . ".\\(?:x[a-zA-Z]\\)")
+  (58 . ".\\(?:::\\|[:=]\\)")
+  (59 . ".\\(?:;;\\|;\\)")
+  (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+  (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+  (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+  (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+  (91 . ".\\(?:]\\)")
+  (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+  (94 . ".\\(?:=\\)")
+  (119 . ".\\(?:ww\\)")
+  (123 . ".\\(?:-\\)")
+  (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+  (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+  )
+  ))
+  (dolist (char-regexp alist)
+  (set-char-table-range composition-function-table (car char-regexp)
+  `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 ; Server
 (server-start)
@@ -282,6 +325,13 @@
   (interactive)
   (set-default-coding-systems 'utf-8)
   (shell))
+
+(defun rutf8-shell()
+  "Create a shell that supports UTF-8, and rename buffer"
+  (interactive)
+  (set-default-coding-systems 'utf-8)
+  (shell)
+  (rename-buffer (read-string "Enter buffer name:")))
 
 ;; elpy
 (package-initialize)
