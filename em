@@ -2,7 +2,7 @@
 
 import os, commands, sys
 
-psresult = commands.getoutput('ps -a | grep emacs')
+psresult = commands.getoutput('ps -a | grep [Ee]macs')
 
 if psresult == '':
     print "Launching emacs..."

@@ -19,7 +19,7 @@
  '(org-agenda-files (quote ("~/docs/2016.org")))
  '(package-selected-packages
    (quote
-    (django-theme elpygen night-owl-theme flucui-themes rust-mode solarized-theme web-mode use-package org-bullets multi-web-mode magit json-mode js2-mode ggtags elpy autopair auto-complete-clang)))
+    (go-mode django-theme elpygen night-owl-theme flucui-themes rust-mode solarized-theme web-mode use-package org-bullets multi-web-mode magit json-mode js2-mode ggtags elpy autopair auto-complete-clang)))
  '(show-paren-mode t nil (paren))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
 
@@ -27,6 +27,7 @@
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.org/packages/"))
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (package-initialize)
 
 ;; Bootstrap `use-package'

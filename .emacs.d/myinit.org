@@ -85,7 +85,7 @@
 (defun set-light-theme ()
   "Set the light theme with some customization if needed."
   (interactive)
-  (load-theme 'leuven t))
+  (load-theme 'solarized-dark t))
 
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
@@ -243,7 +243,7 @@
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
 	(progn
-	  (set-default-font "-*-Fira Code-*-*-*-*-14-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Fira Code-*-*-*-*-12-*-*-*-*-*-iso8859-1")
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
@@ -373,8 +373,8 @@
 * Elpy
 #+BEGIN_SRC emacs-lisp
 ;; elpy
-(package-initialize)
-(elpy-enable)
+;; (package-initialize)
+;; (elpy-enable)
 (setq python-indent 4)
 #+END_SRC
 * Misc old stuff I might need later
