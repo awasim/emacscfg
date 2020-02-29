@@ -17,7 +17,7 @@
 :ensure t)
 
 ; list the packages you want
-(setq package-list '(elpy octicons powerline leuven-theme night-owl-theme rust-mode js2-mode))
+(setq package-list '(elpy octicons powerline dracula-theme night-owl-theme rust-mode js2-mode))
 
 ; fetch the list of packages available 
 (unless package-archive-contents
@@ -58,14 +58,10 @@
 (global-set-key (kbd "C-c y") 'new-day)
 (global-set-key [f4] 'eval-buffer)
 
-;; (require 'color-theme)
-;; (color-theme-initialize)
-;; (color-theme-calm-forest)
-;; (load-theme 'solarized-dark)
 (defun set-light-theme ()
   "Set the light theme with some customization if needed."
   (interactive)
-  (load-theme 'leuven t))
+  (load-theme 'dracula t))
 
 (defun set-dark-theme ()
   "Set the dark theme with some customization if needed."
@@ -74,7 +70,7 @@
 
 (defun theme-switcher ()
   (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 9) (> current-hour 19)) (set-dark-theme) (set-light-theme))))
+    (if (or (< current-hour 9) (> current-hour 18)) (set-dark-theme) (set-light-theme))))
 
 ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
 ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
@@ -85,88 +81,6 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
 
-;; Use js-mode indentation in js2-mode, I don't like js2-mode's indentation
-;;
-;; thanks http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
-;; with my own modifications
-;;
-(defun my-js2-indent-function ()
-  (interactive)
-  (save-restriction
-    (widen)
-    (let* ((inhibit-point-motion-hooks t)
-           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
-           (offset (- (current-column) (current-indentation)))
-           (indentation (js--proper-indentation parse-status))
-           node)
- 
-      (save-excursion
- 
-        (back-to-indentation)
-        ;; consecutive declarations in a var statement are nice if
-        ;; properly aligned, i.e:
-        ;;
-        ;; var foo = "bar",
-        ;;     bar = "foo";
-        (setq node (js2-node-at-point))
-        (when (and node
-                   (= js2-NAME (js2-node-type node))
-                   (= js2-VAR (js2-node-type (js2-node-parent node))))
-          (setq indentation ( 4 indentation))))
- 
-      (indent-line-to indentation)
-      (when (> offset 0) (forward-char offset)))))
- 
-(defun my-indent-sexp ()
-  (interactive)
-  (save-restriction
-    (save-excursion
-      (widen)
-      (let* ((inhibit-point-motion-hooks t)
-             (parse-status (syntax-ppss (point)))
-             (beg (nth 1 parse-status))
-             (end-marker (make-marker))
-             (end (progn (goto-char beg) (forward-list) (point)))
-             (ovl (make-overlay beg end)))
-        (set-marker end-marker end)
-        (overlay-put ovl 'face 'highlight)
-        (goto-char beg)
-        (while (< (point) (marker-position end-marker))
-          ;; don't reindent blank lines so we don't set the "buffer
-          ;; modified" property for nothing
-          (beginning-of-line)
-          (unless (looking-at "\\s-*$")
-            (indent-according-to-mode))
-          (forward-line))
-        (run-with-timer 0.5 nil '(lambda(ovl)
-                                   (delete-overlay ovl)) ovl)))))
- 
-(defun my-js2-mode-hook ()
-  (require 'js)
-  (setq js-indent-level 2
-        indent-tabs-mode nil
-        c-basic-offset 2)
-  (c-toggle-auto-state 0)
-  (c-toggle-hungry-state 1)
-  (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-  (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
-  (define-key js2-mode-map [(meta control \;)] 
-    '(lambda()
-       (interactive)
-       (insert "/* -----[ ")
-       (save-excursion
-         (insert " ]----- */"))
-       ))
-  (define-key js2-mode-map [(return)] 'newline-and-indent)
-  (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
-  (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
-  (define-key js2-mode-map [(control meta q)] 'my-indent-sexp)
-  (if (featurep 'js2-highlight-vars)
-    (js2-highlight-vars-mode))
-  (message "My JS2 hook"))
- 
-(add-hook 'js2-mode-hook 'my-js2-mode-hook)
-
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
@@ -174,12 +88,16 @@
 (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 (font-lock-add-keywords 'org-mode
                         '(("^ +\\([-*]\\) "
-                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "ï¿½"))))))
 (add-hook 'org-mode-hook (lambda () (linum-mode 0)))
 (use-package org-bullets
 :ensure t
 :config
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+(setq gc-cons-threshold (* 511 1024 1024))
+(setq gc-cons-percentage 0.5)
+(run-with-idle-timer 5 t #'garbage-collect)
+(setq garbage-collection-messages t)
 
 (defun transparent(alpha-level no-focus-alpha-level)
   "Let's you make the window transparent"
@@ -212,7 +130,7 @@
 (if (eq system-type 'darwin)
 	;Something for OS X goes here
 	(progn
-	  (set-default-font "-*-Fira Code-*-*-*-*-14-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-Fira Code-*-*-*-*-12-*-*-*-*-*-iso8859-1")
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
@@ -228,17 +146,13 @@
 (if (eq system-type 'windows-nt) 
 	; Windows stuff goes here
 	(progn
-	  (set-default-font "-*-Consolas-*-*-*-*-16-*-*-*-*-*-iso8859-1")
+	  (set-default-font "-*-DelugiaCode NF-*-*-*-*-14-*-*-*-*-*-iso8859-1")
 	   (global-set-key [f12] 'explorer)  
 	   (global-set-key [f11] 'fullscreen)
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
 	   (global-set-key (kbd "S-C-<up>") 'enlarge-window)
-										; Visual Basic
-	   (autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
-	   (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vbs\\)$" . 
-										visual-basic-mode)) auto-mode-alist))
 	   )
 )
 
@@ -273,37 +187,6 @@
 	 (add-hook 'after-make-frame-functions 'on-frame-open)
 	 )
   )
-  (when (window-system)
-  (set-frame-font "Fira Code"))
-  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-  (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-  (36 . ".\\(?:>\\)")
-  (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-  (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-  (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-  (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-  (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-  (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-  (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-  (48 . ".\\(?:x[a-zA-Z]\\)")
-  (58 . ".\\(?:::\\|[:=]\\)")
-  (59 . ".\\(?:;;\\|;\\)")
-  (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-  (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-  (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-  (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-  (91 . ".\\(?:]\\)")
-  (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-  (94 . ".\\(?:=\\)")
-  (119 . ".\\(?:ww\\)")
-  (123 . ".\\(?:-\\)")
-  (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-  (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-  )
-  ))
-  (dolist (char-regexp alist)
-  (set-char-table-range composition-function-table (car char-regexp)
-  `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 ; Server
 (server-start)
@@ -333,58 +216,8 @@
   (shell)
   (rename-buffer (read-string "Enter buffer name:")))
 
-;; elpy
-(package-initialize)
 (elpy-enable)
 (setq python-indent 4)
-
-; HTML
-;; (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
-;; (setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
-;; (setq auto-mode-alist (cons '("\\.asp$" . html-helper-mode) auto-mode-alist))
-;; (setq auto-mode-alist (cons '("\\.phtml$" . html-helper-mode) auto-mode-alist))
-
-; JavaScript
-;(autoload 'js2-mode "js2" nil t)
-;(add-to-list 'auto-mode-alist '("\\.js$" js2-mode))
-
- 
- 
-; Python 
-;; (autoload 'python-mode "python-mode" "Python Mode." t)
-;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
-;; (add-hook 'python-mode-hook
-;;       (lambda ()
-;;         (set (make-variable-buffer-local 'beginning-of-defun-function)
-;;          'py-beginning-of-def-or-class)
-;;         (setq outline-regexp "def\\|class ")))
-
-;; (setq py-install-directory "~/emacscfg/.emacs.d/python-mode.el-6.2.0")
-;; (require 'python-mode)
-
-; PHP
-;; (require 'php-mode)
-
-; Ruby
-;; (autoload 'ruby-mode "ruby-mode" "Ruby editing mode." t)
-;; (setq auto-mode-alist  (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
-;; (setq auto-mode-alist  (cons '("\\.rhtml$" . html-mode) auto-mode-alist))
-
-; Explorer
-;; (defun explorer ()  
-;;  "Launch the windows explorer in the current directory and selects current file"  
-;;  (interactive)  
-;;  (w32-shell-execute  
-;;   "open"  
-;;   "explorer"  
-;;   (concat "/e,/select," (convert-standard-filename buffer-file-name))))  
-
-; Full Screen Emacs
-;; (defun fullscreen ()
-;;   (interactive)
-;;  (set-frame-parameter nil 'fullscreen
-;;                       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 
 (use-package rust-mode
 :ensure t)
@@ -414,3 +247,4 @@
 
 (require 'powerline)
 (powerline-default-theme)
+(setq powerline-text-scale-factor 0.8)
