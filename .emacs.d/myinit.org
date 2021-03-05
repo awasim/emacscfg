@@ -80,6 +80,7 @@
 (global-set-key [f5] 'frame-setup)
 (global-set-key (kbd "C-q") 'global-visual-line-mode)
 (global-set-key (kbd "C-c d") 'insert-date)
+(global-set-key (kbd "C-c e") 'insert-time)
 (global-set-key (kbd "C-c y") 'new-day)
 (global-set-key [f4] 'eval-buffer)
 #+END_SRC
@@ -149,25 +150,30 @@
 #+END_SRC
 * Journal Functions
 #+BEGIN_SRC emacs-lisp
-; Insert Date
-(defun idate()
-  "Insert a time stamp without org bullet point"
-  (interactive)
-  (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
+  ; Insert Date
+  (defun idate()
+    "Insert a time stamp without org bullet point"
+    (interactive)
+    (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
 
-(defun insert-date()
-  "Insert a time-stamp according to locale's date and time format."
-  (interactive)
-  (insert (format-time-string "** %a, %e %b %Y, %k:%M" (current-time))))
+  (defun insert-date()
+    "Insert a time-stamp according to locale's date and time format."
+    (interactive)
+    (insert (format-time-string "** %a, %e %b %Y, %k:%M" (current-time))))
 
-;;;enable narrowing- C-x n n to enable -  C-x n w to end.
-(put 'narrow-to-region 'disabled nil)
+  (defun insert-time()
+    "Insert a time-stamp according to locale's date and time format."
+    (interactive)
+    (insert (format-time-string "%l:%M:%S %p -> " (current-time))))
 
-(defun new-day ()
-  "Insert new date and underline"
-  (interactive)
-  (insert-date)
-  (insert "\n--------------------------\n\n"))
+  ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
+  (put 'narrow-to-region 'disabled nil)
+
+  (defun new-day ()
+    "Insert new date and underline"
+    (interactive)
+    (insert-date)
+    (insert "\n--------------------------\n\n"))
 #+END_SRC
 * Operating system specific
 #+BEGIN_SRC emacs-lisp
@@ -185,7 +191,7 @@
 
 (if (eq system-type 'gnu/linux)
 	 (progn
-	   (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
+	   ;; (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
