@@ -132,6 +132,9 @@
 (setq gc-cons-percentage 0.5)
 (run-with-idle-timer 5 t #'garbage-collect)
 (setq garbage-collection-messages t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)))
 #+END_SRC
 * Transparent Window
 #+BEGIN_SRC emacs-lisp
