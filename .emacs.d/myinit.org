@@ -60,15 +60,17 @@
 #+END_SRC
 * Frame Size
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(height . 45))
-(add-to-list 'default-frame-alist '(width . 115))
-(defun size-1 ()
-(interactive)
-(set-frame-size (selected-frame) 115 46))
+    (add-to-list 'default-frame-alist '(height . 45))
+    (add-to-list 'default-frame-alist '(width . 115))
+    (defun size-1 ()
+    (interactive)
+    (set-frame-size (selected-frame) 115 51)
+    (set-frame-position (selected-frame) 20 20))
 
-(defun size-2 ()
-(interactive)
-(set-frame-size (selected-frame) 205 46))
+    (defun size-2 ()
+    (interactive)
+    (set-frame-size (selected-frame) 205 51)
+    (set-frame-position (selected-frame) 20 20))
 
 #+END_SRC
 * Scrolling Fix
@@ -177,7 +179,7 @@
   (defun insert-time()
     "Insert a time-stamp according to locale's date and time format."
     (interactive)
-    (insert (format-time-string "%l:%M:%S %p -> " (current-time))))
+    (insert (format-time-string "*** %l:%M:%S %p -> " (current-time))))
 
   ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
   (put 'narrow-to-region 'disabled nil)
@@ -270,7 +272,7 @@
 #+END_SRC
 * Elpy
 #+BEGIN_SRC emacs-lisp
-(elpy-enable)
+;;(elpy-enable)
 (setq python-indent 4)
 #+END_SRC
 * Rust
