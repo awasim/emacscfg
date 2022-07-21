@@ -84,39 +84,44 @@
 #+END_SRC
 * Keyboard 
 #+BEGIN_SRC emacs-lisp
-(global-set-key [f7] 'previous-buffer)
-(global-set-key [f8] 'next-buffer)
-(global-set-key [f6] 'other-window)
-(global-set-key [f5] 'size-1)
-(global-set-key [f9] 'size-2)
-(global-set-key (kbd "C-q") 'global-visual-line-mode)
-(global-set-key (kbd "C-c d") 'insert-date)
-(global-set-key (kbd "C-c e") 'insert-time)
-(global-set-key (kbd "C-c y") 'new-day)
-(global-set-key [f4] 'eval-buffer)
+  (global-set-key [f7] 'previous-buffer)
+  (global-set-key [f8] 'next-buffer)
+  (global-set-key [f6] 'other-window)
+  (global-set-key [f5] 'size-1)
+  (global-set-key [f9] 'size-2)
+  (global-set-key (kbd "C-q") 'global-visual-line-mode)
+  (global-set-key (kbd "C-c d") 'insert-date)
+  (global-set-key (kbd "C-c e") 'insert-time)
+  (global-set-key (kbd "C-c y") 'new-day)
+  (global-set-key [f4] 'eval-buffer)
+  (global-set-key [C-f1] 'show-file-name) ; Or any other key you want
+  (global-set-key [C-f2] 'open-daily-log)
+  (global-set-key [C-f3] 'open-work-log)
+  (global-set-key [C-f4] 'open-config)
 #+END_SRC
 * Color Themes
 #+BEGIN_SRC emacs-lisp
-(defun set-light-theme ()
-  "Set the light theme with some customization if needed."
-  (interactive)
-  (load-theme 'dracula t))
+  (defun set-light-theme ()
+    "Set the light theme with some customization if needed."
+    (interactive)
+    (load-theme 'dracula t))
 
-(defun set-dark-theme ()
-  "Set the dark theme with some customization if needed."
-  (interactive)
-  (load-theme 'night-owl t))
+  (defun set-dark-theme ()
+    "Set the dark theme with some customization if needed."
+    (interactive)
+    (load-theme 'night-owl t))
 
-(defun theme-switcher ()
-  (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 9) (> current-hour 18)) (set-dark-theme) (set-light-theme))))
+  (defun theme-switcher ()
+    (let ((current-hour (string-to-number (format-time-string "%H"))))
+      (if (or (< current-hour 9) (> current-hour 18)) (set-dark-theme) (set-light-theme))))
 
-;; (let ((current-hour (string-to-number (format-time-string "%H"))))
-;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
+  ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
+  ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
 
-;; Run at every 3600 seconds, after 0s delay
-;;(run-with-timer 0 3600 'theme-switcher)
-(load-theme 'afternoon t)
+  ;; Run at every 3600 seconds, after 0s delay
+  ;;(run-with-timer 0 3600 'theme-switcher)
+  ;;(load-theme 'afternoon t)
+(load-theme 'toxi t)
 #+END_SRC
 * JS2
 #+BEGIN_SRC emacs-lisp
@@ -318,3 +323,37 @@
   :ensure t
   :bind ("C-=" . er/expand-region))
 #+END_SRC
+
+* Show File Name function
+#+begin_src emacs-lisp
+  (defun show-file-name ()
+    "Show the full path file name in the minibuffer."
+    (interactive)
+    (message (buffer-file-name)))
+
+  (global-set-key [C-f1] 'show-file-name) ; Or any other key you want
+#+end_src
+* Startup and Open Function
+#+begin_src emacs-lisp
+  ; Open daily log
+  ; (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/2022.org" nil nil nil))
+  ; Open App ideas file
+  ; (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/Notes/Ideas/app_ideas.org" nil nil nil))
+  ; Open Work Log
+  ; (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/blizzard.org" nil nil nil))
+  ; Open config
+  (defun open-config()
+    "Open the config org file"
+    (interactive)
+    (switch-to-buffer (find-file-noselect "c:/Users/wasim/emacscfg/.emacs.d/myinit.org" nil nil nil)))
+  ; Open daily log
+  (defun open-daily-log ()
+    "Open the daily log file for editing."
+    (interactive)
+    (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/2022.org" nil nil nil)))
+  ; Open work log
+  (defun open-work-log ()
+    "Open the work log file for editing."
+    (interactive)
+    (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/blizzard.org" nil nil nil)))
+#+end_src

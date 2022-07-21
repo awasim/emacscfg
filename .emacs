@@ -1,4 +1,3 @@
- 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -7,7 +6,7 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
  '(case-fold-search t)
  '(column-number-mode t)
  '(current-language-environment "Latin-1")
@@ -18,7 +17,7 @@
  '(load-home-init-file t t)
  '(org-agenda-files '("~/docs/2020.org"))
  '(package-selected-packages
-   '(afternoon-theme solarized-theme expand-region rainbow-delimiters go-mode dracula-theme rope-read-mode jedi org-bullets which-key js2-mode rust-mode night-owl-theme calmer-forest-theme powerline octicons elpy try use-package))
+   '(toxi-theme afternoon-theme solarized-theme expand-region rainbow-delimiters go-mode dracula-theme rope-read-mode jedi org-bullets which-key js2-mode rust-mode night-owl-theme calmer-forest-theme powerline octicons elpy try use-package))
  '(show-paren-mode t nil (paren))
  '(size-indication-mode t)
  '(text-mode-hook '(turn-on-auto-fill text-mode-hook-identify))
@@ -38,10 +37,12 @@
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.org"))
 
+(set-cursor-color "#ff6961")
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Cascadia Mono PL" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
-(set-cursor-color "#ff6961")
+ '(default ((t (:family "CaskaydiaCove NF" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
+
+(size-1)
