@@ -357,3 +357,12 @@
     (interactive)
     (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/blizzard.org" nil nil nil)))
 #+end_src
+
+* Enable LSP
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :hook ((c++-mode python-mode js-mode csharp-mode) . lsp-deferred)
+    :commands lsp)
+  (use-package lsp-ui
+    :commands lsp-ui-mode)
+#+end_src

@@ -17,7 +17,7 @@
  '(load-home-init-file t t)
  '(org-agenda-files '("~/docs/2020.org"))
  '(package-selected-packages
-   '(toxi-theme afternoon-theme solarized-theme expand-region rainbow-delimiters go-mode dracula-theme rope-read-mode jedi org-bullets which-key js2-mode rust-mode night-owl-theme calmer-forest-theme powerline octicons elpy try use-package))
+   '(rjsx-mode csharp-mode lsp-mode toxi-theme afternoon-theme solarized-theme expand-region rainbow-delimiters go-mode dracula-theme rope-read-mode jedi org-bullets which-key js2-mode rust-mode night-owl-theme calmer-forest-theme powerline octicons elpy try use-package))
  '(show-paren-mode t nil (paren))
  '(size-indication-mode t)
  '(text-mode-hook '(turn-on-auto-fill text-mode-hook-identify))
@@ -44,5 +44,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "CaskaydiaCove NF" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
-
+(set-face-attribute 'mode-line nil :font "CaskaydiaCove NF-10")
 (size-1)
