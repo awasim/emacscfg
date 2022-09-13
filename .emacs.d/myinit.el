@@ -17,7 +17,7 @@
 :ensure t)
 
 ; list the packages you want
-(setq package-list '(elpy octicons powerline dracula-theme night-owl-theme rust-mode js2-mode))
+(setq package-list '(elpy octicons powerline dracula-theme night-owl-theme rust-mode js2-mode rainbow-delimiters))
 
 ; fetch the list of packages available 
 (unless package-archive-contents
@@ -32,6 +32,11 @@
 :ensure t
 :config (which-key-mode))
 
+(use-package rainbow-delimiters
+:ensure t
+:config 
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
@@ -41,6 +46,15 @@
 
 (add-to-list 'default-frame-alist '(height . 45))
 (add-to-list 'default-frame-alist '(width . 115))
+(defun size-1 ()
+(interactive)
+(set-frame-size (selected-frame) 115 50)
+(set-frame-position (selected-frame) 20 20))
+
+(defun size-2 ()
+(interactive)
+(set-frame-size (selected-frame) 185 50)
+(set-frame-position (selected-frame) 20 20))
 
 (setq scroll-margin 1
       scroll-conservatively 0
@@ -52,31 +66,39 @@
 (global-set-key [f7] 'previous-buffer)
 (global-set-key [f8] 'next-buffer)
 (global-set-key [f6] 'other-window)
-(global-set-key [f5] 'frame-setup)
+(global-set-key [f5] 'size-1)
+(global-set-key [f9] 'size-2)
 (global-set-key (kbd "C-q") 'global-visual-line-mode)
 (global-set-key (kbd "C-c d") 'insert-date)
+(global-set-key (kbd "C-c e") 'insert-time)
 (global-set-key (kbd "C-c y") 'new-day)
 (global-set-key [f4] 'eval-buffer)
+(global-set-key [C-f1] 'show-file-name) ; Or any other key you want
+(global-set-key [C-f2] 'open-daily-log)
+(global-set-key [C-f3] 'open-work-log)
+(global-set-key [C-f4] 'open-config)
 
 (defun set-light-theme ()
-  "Set the light theme with some customization if needed."
-  (interactive)
-  (load-theme 'dracula t))
+    "Set the light theme with some customization if needed."
+    (interactive)
+    (load-theme 'dracula t))
 
-(defun set-dark-theme ()
-  "Set the dark theme with some customization if needed."
-  (interactive)
-  (load-theme 'night-owl t))
+  (defun set-dark-theme ()
+    "Set the dark theme with some customization if needed."
+    (interactive)
+    (load-theme 'night-owl t))
 
-(defun theme-switcher ()
-  (let ((current-hour (string-to-number (format-time-string "%H"))))
-    (if (or (< current-hour 9) (> current-hour 18)) (set-dark-theme) (set-light-theme))))
+  (defun theme-switcher ()
+    (let ((current-hour (string-to-number (format-time-string "%H"))))
+      (if (or (< current-hour 9) (> current-hour 18)) (set-dark-theme) (set-light-theme))))
 
-;; (let ((current-hour (string-to-number (format-time-string "%H"))))
-;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
+  ;; (let ((current-hour (string-to-number (format-time-string "%H"))))
+  ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
 
-;; Run at every 3600 seconds, after 0s delay
-(run-with-timer 0 3600 'theme-switcher)
+  ;; Run at every 3600 seconds, after 0s delay
+  ;;(run-with-timer 0 3600 'theme-switcher)
+  ;;(load-theme 'afternoon t)
+(load-theme 'toxi t)
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
@@ -98,6 +120,9 @@
 (setq gc-cons-percentage 0.5)
 (run-with-idle-timer 5 t #'garbage-collect)
 (setq garbage-collection-messages t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)))
 
 (defun transparent(alpha-level no-focus-alpha-level)
   "Let's you make the window transparent"
@@ -113,10 +138,20 @@
 (add-hook 'after-make-frame-functions 'on-frame-open)
 
 ; Insert Date
+(defun idate()
+  "Insert a time stamp without org bullet point"
+  (interactive)
+  (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
+
 (defun insert-date()
   "Insert a time-stamp according to locale's date and time format."
   (interactive)
   (insert (format-time-string "** %a, %e %b %Y, %k:%M" (current-time))))
+
+(defun insert-time()
+  "Insert a time-stamp according to locale's date and time format."
+  (interactive)
+  (insert (format-time-string "*** %l:%M:%S %p -> " (current-time))))
 
 ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
 (put 'narrow-to-region 'disabled nil)
@@ -127,26 +162,9 @@
   (insert-date)
   (insert "\n--------------------------\n\n"))
 
-(if (eq system-type 'darwin)
-	;Something for OS X goes here
-	(progn
-	  (set-default-font "-*-Fira Code-*-*-*-*-12-*-*-*-*-*-iso8859-1")
-	  (setq mac-option-key-is-meta nil)
-	  (setq mac-command-key-is-meta t)
-	  (setq mac-command-modifier 'meta)
-	  (setq mac-option-modifier nil)
-	  (setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
-	  (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-	  (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-	  (global-set-key (kbd "S-C-<down>") 'shrink-window)
-	  (global-set-key (kbd "S-C-<up>") 'enlarge-window)
-	  )
-  )
-
 (if (eq system-type 'windows-nt) 
 	; Windows stuff goes here
 	(progn
-	  (set-default-font "-*-DelugiaCode NF-*-*-*-*-14-*-*-*-*-*-iso8859-1")
 	   (global-set-key [f12] 'explorer)  
 	   (global-set-key [f11] 'fullscreen)
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -158,7 +176,7 @@
 
 (if (eq system-type 'gnu/linux)
 	 (progn
-	   (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
+	   ;; (set-default-font "-*-Monospace-*-*-*-*-12-*-*-*-*-*-iso8859-1")
 	   (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 	   (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 	   (global-set-key (kbd "S-C-<down>") 'shrink-window)
@@ -216,7 +234,7 @@
   (shell)
   (rename-buffer (read-string "Enter buffer name:")))
 
-(elpy-enable)
+;;(elpy-enable)
 (setq python-indent 4)
 
 (use-package rust-mode
@@ -248,3 +266,42 @@
 (require 'powerline)
 (powerline-default-theme)
 (setq powerline-text-scale-factor 0.8)
+
+(use-package expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region))
+
+(defun show-file-name ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (message (buffer-file-name)))
+
+(global-set-key [C-f1] 'show-file-name) ; Or any other key you want
+
+; Open daily log
+; (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/2022.org" nil nil nil))
+; Open App ideas file
+; (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/Notes/Ideas/app_ideas.org" nil nil nil))
+; Open Work Log
+; (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/blizzard.org" nil nil nil))
+; Open config
+(defun open-config()
+  "Open the config org file"
+  (interactive)
+  (switch-to-buffer (find-file-noselect "c:/Users/wasim/emacscfg/.emacs.d/myinit.org" nil nil nil)))
+; Open daily log
+(defun open-daily-log ()
+  "Open the daily log file for editing."
+  (interactive)
+  (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/2022.org" nil nil nil)))
+; Open work log
+(defun open-work-log ()
+  "Open the work log file for editing."
+  (interactive)
+  (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/blizzard.org" nil nil nil)))
+
+(use-package lsp-mode
+  :hook ((c++-mode python-mode js-mode csharp-mode) . lsp-deferred)
+  :commands lsp)
+(use-package lsp-ui
+  :commands lsp-ui-mode)

@@ -43,6 +43,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "CaskaydiaCove NF" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
-(set-face-attribute 'mode-line nil :font "CaskaydiaCove NF-10")
+ '(default ((t (:family "Hack NF" :foundry "outline" :slant normal :weight normal :height 120 :width normal))))
+ '(mode-line ((t (:background "grey75" :foreground "black" :box nil :slant normal :weight normal :height 98 :width normal :foundry "outline" :family "Hack NF")))))
+(set-face-attribute 'mode-line nil :font "Hack NF-10")
 (size-1)

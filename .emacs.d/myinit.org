@@ -64,12 +64,12 @@
     (add-to-list 'default-frame-alist '(width . 115))
     (defun size-1 ()
     (interactive)
-    (set-frame-size (selected-frame) 115 51)
+    (set-frame-size (selected-frame) 115 50)
     (set-frame-position (selected-frame) 20 20))
 
     (defun size-2 ()
     (interactive)
-    (set-frame-size (selected-frame) 205 51)
+    (set-frame-size (selected-frame) 185 50)
     (set-frame-position (selected-frame) 20 20))
 
 #+END_SRC
@@ -275,7 +275,7 @@
   (shell)
   (rename-buffer (read-string "Enter buffer name:")))
 #+END_SRC
-* Elpy
+* Python
 #+BEGIN_SRC emacs-lisp
 ;;(elpy-enable)
 (setq python-indent 4)
@@ -365,4 +365,10 @@
     :commands lsp)
   (use-package lsp-ui
     :commands lsp-ui-mode)
+#+end_src
+
+* Aspell
+#+begin_src emacs-lisp
+  (setq ispell-program-name "C:\\Users\\wasim\\scoop\\shims\\aspell.exe")
+  (require 'ispell)
 #+end_src
