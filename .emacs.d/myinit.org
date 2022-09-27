@@ -132,27 +132,28 @@
 #+END_SRC
 * Org Mode configs
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-(add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
-(font-lock-add-keywords 'org-mode
-                        '(("^ +\\([-*]\\) "
-                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "�"))))))
-(add-hook 'org-mode-hook (lambda () (linum-mode 0)))
-(use-package org-bullets
-:ensure t
-:config
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-(setq gc-cons-threshold (* 511 1024 1024))
-(setq gc-cons-percentage 0.5)
-(run-with-idle-timer 5 t #'garbage-collect)
-(setq garbage-collection-messages t)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)))
-#+END_SRC
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
+  (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
+  (font-lock-add-keywords 'org-mode
+			  '(("^ +\\([-*]\\) "
+			     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "�"))))))
+  (add-hook 'org-mode-hook (lambda () (linum-mode 0)))
+  (use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (setq gc-cons-threshold (* 511 1024 1024))
+  (setq gc-cons-percentage 0.5)
+  (run-with-idle-timer 5 t #'garbage-collect)
+  (setq garbage-collection-messages t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
+  (add-hook 'org-mode-hook 'turn-on-flyspell)
+ #+END_SRC
 * Transparent Window
 #+BEGIN_SRC emacs-lisp
 (defun transparent(alpha-level no-focus-alpha-level)
