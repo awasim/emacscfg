@@ -47,11 +47,21 @@
 :config 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
-* ido
+* Completion Frameworks
 #+BEGIN_SRC emacs-lisp
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+    ;; (setq ido-enable-flex-matching t)
+    ;; (setq ido-everywhere t)
+    ;; (ido-mode 1)
+  (use-package vertico
+    :init
+    (vertico-mode +1))
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless)
+	  completion-category-defaults nil
+	  completion-category-overrides '((file (styles partial-completion)))))
+  (use-package marginalia
+    :config (marginalia-mode))
 #+END_SRC
 * Fonts
 #+BEGIN_SRC emacs-lisp
