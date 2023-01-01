@@ -75,28 +75,28 @@
   ;;(add-to-list 'default-frame-alist '(width . 115))
   (defun size-1 ()
     (interactive)
-    (set-frame-size (selected-frame) 115 50)
-    (set-frame-position (selected-frame) 20 20))
+    (set-frame-size (selected-frame) 115 52)
+    (set-frame-position (selected-frame) 5 5))
 
   (defun size-2 ()
     (interactive)
-    (set-frame-size (selected-frame) 185 50)
-    (set-frame-position (selected-frame) 20 20))
+    (set-frame-size (selected-frame) 188 52)
+    (set-frame-position (selected-frame) 5 5))
 
   (defun size-3 ()
     (interactive)
-    (set-frame-size (selected-frame) 115 (truncate (/ (* (display-pixel-height) .67) (frame-char-height))))
-    (set-frame-position (selected-frame) 740 20))
+    (set-frame-size (selected-frame) 115 (truncate (/ (* (display-pixel-height) .92) (frame-char-height))))
+    (set-frame-position (selected-frame) 740 5))
 
   (defun size-4 ()
     (interactive)
-    (set-frame-size (selected-frame) 185 25)
-    (set-frame-position (selected-frame) 20 20))
+    (set-frame-size (selected-frame) 188 25)
+    (set-frame-position (selected-frame) 5 5))
 
   (defun size-5 ()
     (interactive)
-    (set-frame-size (selected-frame) 185 25)
-    (set-frame-position (selected-frame) 20 500))
+    (set-frame-size (selected-frame) 188 25)
+    (set-frame-position (selected-frame) 5 500))
 
   (defun size-r ()
     (interactive)
@@ -205,30 +205,32 @@
 #+END_SRC
 * Journal Functions
 #+BEGIN_SRC emacs-lisp
-  ; Insert Date
-  (defun idate()
-    "Insert a time stamp without org bullet point"
-    (interactive)
-    (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
+    ; Insert Date
+    (require 'calendar)
+    (defun idate()
+      "Insert a time stamp without org bullet point"
+      (interactive)
+      (insert (format-time-string "%a, %e %b %Y, %k:%M" (current-time))))
 
-  (defun insert-date()
-    "Insert a time-stamp according to locale's date and time format."
-    (interactive)
-    (insert (format-time-string "** %a, %e %b %Y, %k:%M" (current-time))))
+    (defun insert-date()
+      "Insert a time-stamp according to locale's date and time format."
+      (interactive)
+      (insert (format-time-string "** %a, %e %b %Y, %k:%M <--> " (current-time)))
+      (insert (calendar-islamic-date-string)))
 
-  (defun insert-time()
-    "Insert a time-stamp according to locale's date and time format."
-    (interactive)
-    (insert (format-time-string "*** %l:%M:%S %p -> " (current-time))))
+    (defun insert-time()
+      "Insert a time-stamp according to locale's date and time format."
+      (interactive)
+      (insert (format-time-string "*** %l:%M:%S %p -> " (current-time))))
 
-  ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
-  (put 'narrow-to-region 'disabled nil)
+    ;;;enable narrowing- C-x n n to enable -  C-x n w to end.
+    (put 'narrow-to-region 'disabled nil)
 
-  (defun new-day ()
-    "Insert new date and underline"
-    (interactive)
-    (insert-date)
-    (insert "\n--------------------------\n\n"))
+    (defun new-day ()
+      "Insert new date and underline"
+      (interactive)
+      (insert-date)
+      (insert "\n--------------------------------------------------\n\n"))
 #+END_SRC
 * Operating system specific
 #+BEGIN_SRC emacs-lisp
@@ -390,7 +392,7 @@
   (defun open-work-log ()
     "Open the work log file for editing."
     (interactive)
-    (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/writing/daily_log/blizzard.org" nil nil nil)))
+    (switch-to-buffer (find-file-noselect "c:/Users/wasim/Documents/worklog/amd/amd.org" nil nil nil)))
 #+end_src
 
 * Enable LSP
