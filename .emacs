@@ -17,7 +17,7 @@
  '(load-home-init-file t t)
  '(org-agenda-files '("~/docs/2020.org"))
  '(package-selected-packages
-   '(lsp-ui marginalia orderless vertico rjsx-mode csharp-mode lsp-mode toxi-theme afternoon-theme solarized-theme expand-region rainbow-delimiters go-mode dracula-theme rope-read-mode jedi org-bullets which-key js2-mode rust-mode night-owl-theme calmer-forest-theme powerline octicons elpy try use-package))
+   '(compat magit yaml-mode elfeed visual-fill-column org-present lsp-ui marginalia orderless vertico rjsx-mode csharp-mode lsp-mode toxi-theme afternoon-theme solarized-theme expand-region rainbow-delimiters go-mode dracula-theme rope-read-mode jedi org-bullets which-key js2-mode rust-mode night-owl-theme calmer-forest-theme powerline octicons elpy try use-package))
  '(show-paren-mode t nil (paren))
  '(size-indication-mode t)
  '(text-mode-hook '(turn-on-auto-fill text-mode-hook-identify))

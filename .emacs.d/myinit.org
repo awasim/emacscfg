@@ -50,9 +50,6 @@
 #+END_SRC
 * Completion Frameworks
 #+BEGIN_SRC emacs-lisp
-    ;; (setq ido-enable-flex-matching t)
-    ;; (setq ido-everywhere t)
-    ;; (ido-mode 1)
   (use-package vertico
     :init
     (vertico-mode +1))
@@ -71,8 +68,6 @@
 #+END_SRC
 * Frame Size
 #+BEGIN_SRC emacs-lisp
-  ;;(add-to-list 'default-frame-alist '(height . 45))
-  ;;(add-to-list 'default-frame-alist '(width . 115))
   (defun size-1 ()
     (interactive)
     (set-frame-size (selected-frame) 115 52)
@@ -143,7 +138,7 @@
   (defun set-dark-theme ()
     "Set the dark theme with some customization if needed."
     (interactive)
-    (load-theme 'night-owl t))
+    (load-theme 'toxi t))
 
   (defun theme-switcher ()
     (let ((current-hour (string-to-number (format-time-string "%H"))))
@@ -153,16 +148,14 @@
   ;;  (if (or (< current-hour 6) (> current-hour 20)) (set-light-theme) (set-dark-theme)))
 
   ;; Run at every 3600 seconds, after 0s delay
-  ;;(run-with-timer 0 3600 'theme-switcher)
-  ;;(load-theme 'afternoon t)
-(load-theme 'toxi t)
+  (run-with-timer 0 3600 'theme-switcher)
+;;(load-theme 'toxi t)
 #+END_SRC
-* JS2
+* JS2 & json-mode
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
-
-
+(use-package json-mode :ensure t)
 #+END_SRC
 * Org Mode configs
 #+BEGIN_SRC emacs-lisp
@@ -398,7 +391,7 @@
 * Enable LSP
 #+begin_src emacs-lisp
   (use-package lsp-mode
-    :hook ((c++-mode python-mode js-mode csharp-mode) . lsp-deferred)
+    :hook ((c++-mode python-mode js-mode rust-mode) . lsp-deferred)
     :commands lsp)
   (use-package lsp-ui
     :commands lsp-ui-mode)
@@ -408,4 +401,47 @@
 #+begin_src emacs-lisp
   (setq ispell-program-name "C:\\Users\\wasim\\scoop\\shims\\aspell.exe")
   (require 'ispell)
+#+end_src
+
+* Org-Present
+#+begin_src emacs-lisp
+  (setq visual-fill-column-width 110
+	visual-fill-column-center-text t)
+  
+#+end_src
+
+* Elfeed
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :config
+    (setq elfeed-feeds
+	  '("https://planet.emacslist.com/atom.xml"
+	    "https://sachachua.com/blog/feed/"
+	    "https://www.macstories.net/feed"
+	    "http://karpathy.github.io/feed.xml")))
+#+end_src
+
+* yaml
+#+begin_src emacs-lisp
+  (use-package yaml-mode :ensure t)
+#+end_src
+
+* Magit
+#+begin_src emacs-lisp
+  (use-package magit
+    :bind ("C-x g" . magit-status)
+    :ensure t
+    :config
+    (add-hook 'after-save-hook 'magit-after-save-refresh-status))
+#+end_src
+
+* rjsx-mode
+#+begin_src emacs-lisp
+  (use-package rjsx-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+    (add-to-list 'auto-mode-alist '("pages\\/.*\\.js\\'" . rjsx-mode)))
+
 #+end_src
